@@ -1,0 +1,166 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "User Crud",
+        "description": "Save users to your application",
+        "version": "1.0.0",
+        "contact": {
+            "email": "jonathan@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Create a user",
+                "description": "Create a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created"
+                    },
+                    "400": {
+                        "description": "User email already exists"
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all users",
+                "description": "List all users if requestUser is an administrator",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "description": "Request user id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "return users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User requesting isn't admin"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "summary": "Find user by id",
+                "description": "Find one user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user identifier"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description" : "success",
+                        "content": {
+                            "application/json": {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "summary": "Make user an administrator",
+                "description": "Make user an admin sending his id",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user identifier"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description" : "success",
+                        "content": {
+                            "application/json": {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "createUserRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "name": "jonathan",
+                    "email": "jonathan@gmail.com"
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "type": "boolean"
+                    }
+                },
+                "example": {
+                    "id": "1",
+                    "name": "jonathan",
+                    "email": "jonathan@gmail.com",
+                    "admin": true
+                }
+            }
+        }
+    }
+}
