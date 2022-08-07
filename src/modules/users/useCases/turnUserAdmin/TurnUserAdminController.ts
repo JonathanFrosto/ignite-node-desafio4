@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 
-import { NotFound } from "../@shared/errors/Notfound";
 import ResolverErrors from "../@shared/errors/ResolverErrors";
 import { TurnUserAdminUseCase } from "./TurnUserAdminUseCase";
 
